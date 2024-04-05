@@ -1,0 +1,47 @@
+<h2 class="mb-5">Empleados</h2>
+
+<div class="text-end">
+    <button class="btn btn-primary" routerLink="/new">
+        Nuevo Empleado
+    </button>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>CÉDULA</th>
+            <th>NOMBRE</th>
+            <th>FECHA REGISTRO</th>
+            <th>CARGO</th>
+            <th>FOTO DE PERFIL</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (employee of employees; track employee.id) {
+            <tr>
+                <td>{{employee.dni}}</td>
+                <td>{{employee.name}}</td>
+                <td>{{employee.dateEntry | date: 'YYYY-MM-dd'}}</td>
+                <td>{{employee.jobPosition.name}}</td>
+                <td>
+                    @if (employee.profilePicture) {
+                      <img [src]="employee.profilePicture.source" alt="Foto de Perfil" srcset="" style="width: 50px; height: 50px; border-radius: 50%;">
+                    } @else {
+                      <span>Sin foto de perfil</span>
+                    }
+                </td>
+                <td class="text-end">
+                    <div class="btn-group">
+                        <button class="btn btn-warning" [routerLink]="[employee.id+'/edit']">
+                            Editar
+                        </button>
+                        <button class="btn btn-danger" (click)="DeleteEmployee(employee.id)">
+                            Eliminar
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,79 @@
+<h2 class="mb-5">
+    @if(employee){
+        Editar Empleado
+    }@else {
+        Nuevo Empleado
+    }
+    
+</h2>
+
+<div class="row row-cols-3 justify-content-center">
+   @if(form){
+    <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="mb-3">
+            <label for="cedula">Cedula</label>
+            <input id="cedula" type="text" placeholder="123456789" class="form-control"
+            formControlName="dni">
+            @if(form.get("dni")?.hasError("required")){
+                <p class="invalid-feedback d-block">El campo cédula es obligatorio</p>
+            }
+            @if(form.get("dni")?.hasError("pattern")){
+                <p class="invalid-feedback d-block">El campo cédula debe tener un formato númerico</p>
+            }
+        </div>
+        <div class="mb-3">
+            <label for="name">Nombre</label>
+            <input id="name" type="text" placeholder="Nombre" class="form-control"
+            formControlName="name">
+            @if(form.get("name")?.hasError("required")){
+                <p class="invalid-feedback d-block">El campo nombre es obligatorio</p>
+            }
+            @if(form.get("name")?.hasError("pattern")){
+                <p class="invalid-feedback d-block">El campo nombre debe contener valores Alfanuméricos</p>
+            }
+        </div>
+        <div class="mb-3">
+            <label for="name">Cargo</label>
+            <select id="cargo" class="form-control" formControlName="jobPosition">
+                <option value="">-- Seleccione un cargo --</option>
+                @for (jobPosition of jobPositions; track jobPosition.id) {
+                    <option [value]="jobPosition.id">{{jobPosition.name}}</option>
+                }
+              </select>
+              @if(form.get("jobPosition")?.hasError("required")){
+                <p class="invalid-feedback d-block">Debe seleccionar un Cargo</p>
+            }
+        </div>
+        <div class="mb-3">
+            <label for="fecha_ingreso">Fecha de ingreso</label>
+            <input type="date" id="fecha_ingreso" name="fecha_ingreso" class="form-control" 
+            formControlName="dateEntry">
+            @if(form.get("dateEntry")?.hasError("required")){
+                <p class="invalid-feedback d-block">El campo fecha ingreso es obligatorio</p>
+            }
+        </div>
+        <div class="mb-3">
+            <label for="imagen">Foto de perfil</label>
+            <input type="file" id="imagen" name="imagen" class="form-control"
+            formControlName="image" (change)="onFileSelected($event)">    
+        </div>
+        @if(imageSelectedShow){
+            <div class="mb-3">
+                <img [src]="imageSelectedShow" alt="Foto de perfil" style="width: 70px; height: 70px; border-radius: 50%;">
+            </div>
+        }
+        <div class="text-end">
+            <button type="button" class="btn btn-light" routerLink="/">
+                Cancelar
+            </button>
+            <button class="btn btn-primary ms-2">
+                @if(employee){
+                    Editar Empleado
+                }@else {
+                    Crear Empleado
+                }
+            </button>
+        </div>
+    </form>
+   }
+</div>
